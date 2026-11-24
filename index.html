@@ -3,51 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>लक्ष्मण सोनबा पाटील परिवार — दाजी पाटील शाखा</title>
-
+<title>लक्ष्मण सोनबा पाटील परिवार</title>
 <style>
-:root{
-  --bg:#f3eee5;
-  --ink:#2b241d;
-}
 *{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:var(--bg)}
-body{
-  font-family:"Noto Sans Devanagari","Nirmala UI","Mangal",system-ui,sans-serif;
-  overflow:auto;
-}
-.diagram-only{
+html,body{margin:0;min-height:100%;background:#f3eee5}
+body{font-family:"Noto Sans Devanagari","Nirmala UI","Mangal",system-ui,sans-serif}
+main{
   width:100%;
   min-height:100vh;
   display:grid;
   place-items:center;
-  background:
-    radial-gradient(circle at 50% 42%,#fffdf9 0,#f7f1e8 52%,#eadfce 100%);
   padding:12px;
+  background:radial-gradient(circle at 50% 42%,#fffdf9 0,#f7f1e8 52%,#eadfce 100%);
 }
-#svg{
-  width:min(100%,1200px);
-  height:auto;
-  aspect-ratio:1;
-  display:block;
-  cursor:grab;
-  touch-action:none;
-  user-select:none;
-}
-#svg.dragging{cursor:grabbing}
-.arc{
-  cursor:pointer;
-  transition:opacity .15s ease,filter .15s ease,stroke-width .15s ease;
-}
-.arc:hover{filter:brightness(1.06) saturate(1.08)}
-.arc.dim{opacity:.075}
+svg{width:min(100%,1200px);height:auto;aspect-ratio:1;display:block}
+.guide{fill:none;stroke:rgba(80,63,47,.14);stroke-width:1.1}
+.arc{pointer-events:none}
 .arc.medium{stroke-dasharray:4 3}
-.arc.tentative{
-  stroke:#9a621b!important;
-  stroke-width:2!important;
-  stroke-dasharray:8 5;
-  opacity:.9
-}
+.arc.tentative{stroke:#9a621b!important;stroke-width:2!important;stroke-dasharray:8 5;opacity:.9}
 .label{
   pointer-events:none;
   fill:#251f19;
@@ -58,475 +31,208 @@ body{
   stroke-linejoin:round
 }
 .label.tentative{fill:#6d4615}
-.guide{fill:none;stroke:rgba(80,63,47,.14);stroke-width:1.1}
 .root{fill:#fffdf8;stroke:#685442;stroke-width:2.2}
 .root-label{font-weight:800;text-anchor:middle;dominant-baseline:middle}
-#tooltip{
-  display:none;
-  position:fixed;
-  z-index:50;
-  pointer-events:none;
-  max-width:330px;
-  background:rgba(43,34,27,.96);
-  color:#fff;
-  border-radius:12px;
-  padding:10px 12px;
-  box-shadow:0 12px 30px rgba(0,0,0,.2);
-  font-size:13px;
-  line-height:1.45
-}
-.tt-title{font-weight:800;font-size:15px}
-.tt-sub{color:#ddd0c2;margin-top:3px}
-
-/* Animated entrance */
-@keyframes ringReveal{
-  0%{opacity:0;filter:blur(2px)}
-  55%{opacity:.72}
-  100%{opacity:1;filter:blur(0)}
-}
-@keyframes centerReveal{
-  0%{opacity:0;transform:scale(.84)}
-  100%{opacity:1;transform:scale(1)}
-}
-.arc.entering,.label.entering{
-  opacity:0;
-  animation:ringReveal .46s cubic-bezier(.2,.75,.2,1) forwards;
-  animation-delay:var(--reveal-delay,0ms)
-}
-#center.entrance{
-  transform-box:view-box;
-  transform-origin:0 0;
-  animation:centerReveal .48s cubic-bezier(.18,.8,.25,1) both
-}
-
-/* Golden ancestry path */
-.arc.ancestor{
-  opacity:1!important;
-  stroke:#e2aa32!important;
-  stroke-width:3.8!important;
-  filter:
-    drop-shadow(0 0 4px rgba(236,185,63,.95))
-    drop-shadow(0 0 10px rgba(225,153,31,.58))
-}
-.label.ancestor{
-  opacity:1!important;
-  fill:#3b2705;
-  stroke:rgba(255,248,214,.98);
-  stroke-width:3px;
-  filter:drop-shadow(0 0 5px rgba(238,184,52,.72))
-}
-.arc.active{
-  opacity:1!important;
-  stroke:#ffd36a!important;
-  stroke-width:4.5!important;
-  filter:
-    drop-shadow(0 0 6px rgba(255,210,99,.98))
-    drop-shadow(0 0 14px rgba(222,146,20,.75))
-}
-.label.active{
-  opacity:1!important;
-  fill:#221500;
-  stroke:#fff2ba;
-  stroke-width:3.4px;
-  filter:drop-shadow(0 0 7px rgba(240,177,39,.88))
-}
-#center.path-glow .root{
-  stroke:#e2aa32;
-  stroke-width:4;
-  filter:
-    drop-shadow(0 0 5px rgba(236,185,63,.9))
-    drop-shadow(0 0 13px rgba(225,153,31,.52))
-}
-#center.path-glow .root-label{
-  fill:#362303;
-  filter:drop-shadow(0 0 5px rgba(239,187,63,.65))
-}
-
-/* Branch spotlight */
-.arc.spotlight{
-  opacity:1!important;
-  filter:brightness(1.06) saturate(1.12) drop-shadow(0 0 5px rgba(83,58,32,.22))
-}
-.label.spotlight{opacity:1!important}
-#viewport{transform-box:view-box;transform-origin:0 0}
-
-@media(max-width:640px){
-  .diagram-only{padding:4px}
-  #svg{width:100%}
-}
-@media(prefers-reduced-motion:reduce){
-  .arc.entering,.label.entering,#center.entrance{animation:none!important;opacity:1!important}
-}
-@media print{
-  body,.diagram-only{background:#fff}
-  .diagram-only{padding:0}
-}
+@media(max-width:640px){main{padding:4px}svg{width:100%}}
+@media print{body,main{background:#fff}main{padding:0}}
 </style>
-
 </head>
 <body>
-<main class="diagram-only">
-  <svg id="svg" viewBox="-980 -980 1960 1960" aria-label="लक्ष्मण सोनबा पाटील radial family tree">
-    <g id="viewport">
-      <g id="guides"></g>
-      <g id="arcs"></g>
-      <g id="labels"></g>
-      <g id="center"></g>
-    </g>
-  </svg>
-  <div id="tooltip"></div>
+<main>
+<svg viewBox="-980 -980 1960 1960" aria-label="लक्ष्मण सोनबा पाटील radial family tree">
+  <g id="guides"></g>
+  <g id="arcs"></g>
+  <g id="labels"></g>
+  <g id="center"></g>
+</svg>
 </main>
 
-<script id="data" type="application/json">{"source": {"image": "IMG-20261108-WA0003(1).jpg", "scope": "लक्ष्मण सोनबा पाटील → दाजी पाटील branch", "language": "Marathi", "method": "fresh visual re-extraction from the original image; earlier JSON not reused as source", "relationship_rule": "For generation 3 paired text, wife is written first and husband second.", "policy": "Do not silently expand unclear text. Uncertain readings are marked."}, "root_context": {"name_mr": "लक्ष्मण सोनबा पाटील", "branch": {"generation": 1, "order": 1, "name_mr": "लक्ष्मण सोनबा पाटील", "confidence": "high", "relationship_status": "confirmed_by_user", "note": "दाजी पाटील यांचे पालक म्हणून वापरकर्त्याने पुष्टी केली.", "children": [{"generation": 2, "order": 1, "name_mr": "दाजी पाटील", "confidence": "high", "children": [{"generation": 3, "order": 1, "wife_mr": "दागू", "husband_mr": "वेडू", "confidence": "high", "note": "दागू / वेडू आणि त्यांचे चार थेट वंशज वापरकर्त्याने पुष्टी केले.", "children": [{"generation": 4, "order": 1, "lines_mr": ["गोतमा", "रामचंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 5, "order": 1, "lines_mr": ["द्रौपदा", "दिगंबर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["अरुणा", "भिकन"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "द्रौपदा / दिगंबर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["रंजना", "नागेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["रोहित"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "रंजना / नागेश यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "द्रौपदा / दिगंबर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "गोतमा / रामचंद्र यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 2, "lines_mr": ["कस्तुरा", "मणिराम"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["रत्ना", "हिम्मत"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "कस्तुरा / मणिराम यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "गोतमा / रामचंद्र यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "दागू / वेडू यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 4, "order": 2, "lines_mr": ["यमुना", "राजाराम"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 5, "order": 1, "lines_mr": ["सुमन", "यादवराव"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["पुष्पा", "प्रभाकर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["धनश्री", "दिनेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 8, "order": 1, "lines_mr": ["हिमांशु"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "हिमांशु हा धनश्री / दिनेश यांचा मुलगा आहे.", "relationship_type": "son", "relationship_type_mr": "मुलगा"}], "note": "पुष्पा / प्रभाकर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 7, "order": 2, "lines_mr": ["गिरीश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "पुष्पा / प्रभाकर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "सुमन / यादवराव यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["मनीषा", "भास्कर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["शुभम"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मनीषा / भास्कर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "सुमन / यादवराव यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "यमुना / राजाराम यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 2, "lines_mr": ["मथुरा", "पोपट"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["जितेंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["वेद"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "जितेंद्र यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "मथुरा / पोपट यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["पुष्पेंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मथुरा / पोपट यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "यमुना / राजाराम यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "दागू / वेडू यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 4, "order": 3, "lines_mr": ["जानकू", "रघुनाथ"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 5, "order": 1, "lines_mr": ["शांता", "शामराव"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["किरण", "कांतिलाल"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["युगंधरा"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "किरण / कांतिलाल यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 7, "order": 2, "lines_mr": ["दिप्तांशु"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "किरण / कांतिलाल यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "किरण / कांतिलाल हे जोडपे म्हणून वापरकर्त्याच्या नवीन दुरुस्तीनुसार नोंदवले."}], "note": "जानकू / रघुनाथ यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 2, "lines_mr": ["मीना", "हरी हिरा"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["राजेंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मीना / हरी हिरा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["भालचंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["सरवेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "relationship_type": "son", "relationship_type_mr": "मुलगा", "children": [], "note": "सरवेश हा भालचंद्र यांचा मुलगा आहे."}, {"generation": 7, "order": 2, "lines_mr": ["भारद्वाज"], "confidence": "high", "relationship_status": "confirmed_by_user", "relationship_type": "son", "relationship_type_mr": "मुलगा", "children": [], "note": "भारद्वाज हा भालचंद्र यांचा मुलगा आहे."}], "note": "मीना / हरी हिरा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 3, "lines_mr": ["शशिकांत"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मीना / हरी हिरा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "जानकू / रघुनाथ यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 3, "lines_mr": ["अंजिरा", "रावसाहेब"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["योगेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "अंजिरा / रावसाहेब यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["राहुल"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "अंजिरा / रावसाहेब यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "जानकू / रघुनाथ यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 4, "lines_mr": ["निर्मला", "मुरलीधर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["उदय"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["धैर्य"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "उदय यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "निर्मला / मुरलीधर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["विशाल"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "निर्मला / मुरलीधर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "जानकू / रघुनाथ यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "दागू / वेडू यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 4, "order": 4, "lines_mr": ["पार्वता", "निंबा"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 5, "order": 1, "lines_mr": ["विश्वास"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["सतीश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "विश्वास यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["उमेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "विश्वास यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "पार्वता / निंबा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 2, "lines_mr": ["टिकाराम"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["शीतल", "पारस"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "टिकाराम यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "पार्वता / निंबा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 3, "lines_mr": ["मधुकर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["उमेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मधुकर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["देवेंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मधुकर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "पार्वता / निंबा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 4, "lines_mr": ["मीरा", "सुभाष"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["चेतन"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["दुर्गेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "चेतन यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "मीरा / सुभाष यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["स्वराज"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मीरा / सुभाष यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "पार्वता / निंबा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "दागू / वेडू यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "relationship_status": "confirmed_by_user"}, {"generation": 3, "order": 2, "wife_mr": null, "husband_mr": "कडजी", "confidence": "high", "children": [{"generation": 4, "order": 1, "lines_mr": ["शेवंता", "महादू"], "confidence": "medium", "note": "First name is printed on a correction label; शेवंता is the best visual reading.", "children": [{"generation": 5, "order": 1, "lines_mr": ["इंदू", "उखाजी"], "confidence": "high", "children": [{"generation": 6, "order": 1, "lines_mr": ["अरुणा", "सुरेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["पूनम", "सागर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "अरुणा / सुरेश यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}]}, {"generation": 6, "order": 2, "lines_mr": ["सुनंदा", "रविंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["मानसी", "प्रशांत"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "सुनंदा / रविंद्र यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 7, "order": 2, "lines_mr": ["खुशी", "चेतन"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "सुनंदा / रविंद्र यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}, {"generation": 6, "order": 3, "lines_mr": ["वर्षा", "संजय"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["श्वेता", "गौरव"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "वर्षा / संजय यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 7, "order": 2, "lines_mr": ["उत्कर्ष"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "वर्षा / संजय यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}, {"generation": 5, "order": 2, "lines_mr": ["वत्सला", "पंडित"], "confidence": "high", "children": [{"generation": 6, "order": 1, "lines_mr": ["विजय", "जयश्री"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["मितेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "विजय / जयश्री यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}]}, {"generation": 6, "order": 2, "lines_mr": ["शैला", "अनिल"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["रितेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "शैला / अनिल यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}]}, {"generation": 6, "order": 3, "lines_mr": ["ज्योती", "दिनेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["दर्शन"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "ज्योती / दिनेश यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}]}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}, {"generation": 4, "order": 2, "lines_mr": ["गुंता", "भगवान"], "confidence": "high", "children": [{"generation": 5, "order": 1, "lines_mr": ["सुशिला", "बाबुराव"], "confidence": "high", "children": [{"generation": 6, "order": 1, "lines_mr": ["ज्योती", "विनय"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["आदेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "ज्योती / विनय यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}]}, {"generation": 6, "order": 2, "lines_mr": ["मंजुषा", "प्रशांत"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user."}]}, {"generation": 5, "order": 2, "lines_mr": ["मंगला", "अशोक"], "confidence": "high", "children": [{"generation": 6, "order": 1, "lines_mr": ["अश्विनी", "शहाजी"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user."}, {"generation": 6, "order": 2, "lines_mr": ["दिपाली", "रामकृष्ण"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user."}]}]}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}], "relationship_status": "confirmed_by_user", "note": "लक्ष्मण सोनबा पाटील यांचे थेट अपत्य म्हणून वापरकर्त्याने पुष्टी केली."}]}}, "outer_ring": {"status": "corrected, confirmed, all names in Marathi", "note": "Outer-ring relationships were corrected and confirmed by the user; all person names are now stored in Marathi script.", "readable_sequence_mr": [{"lines_mr": ["अरुणा", "सुरेश"], "confidence": "high"}, {"lines_mr": ["सुनंदा", "रविंद्र"], "confidence": "high"}, {"lines_mr": ["वर्षा", "संजय"], "confidence": "high"}, {"lines_mr": ["विजय", "जयश्री"], "confidence": "high"}, {"lines_mr": ["शैला", "अनिल"], "confidence": "high"}, {"lines_mr": ["ज्योती", "दिनेश"], "confidence": "high"}, {"lines_mr": ["ज्योती", "विनय"], "confidence": "high"}, {"lines_mr": ["मंजुषा", "प्रशांत"], "confidence": "high"}, {"lines_mr": ["अश्विनी", "शहाजी"], "confidence": "high"}, {"lines_mr": ["दिपाली", "रामकृष्ण"], "confidence": "high"}], "not_yet_assigned": false, "assignment_note": "Generation 6 parent links below were corrected and confirmed by the user.", "confirmed_mapping": [{"parent_mr": ["इंदू", "उखाजी"], "children_mr": [["अरुणा", "सुरेश"], ["सुनंदा", "रविंद्र"], ["वर्षा", "संजय"]]}, {"parent_mr": ["वत्सला", "पंडित"], "children_mr": [["विजय", "जयश्री"], ["शैला", "अनिल"], ["ज्योती", "दिनेश"]]}, {"parent_mr": ["सुशिला", "बाबुराव"], "children_mr": [["ज्योती", "विनय"], ["मंजुषा", "प्रशांत"]]}, {"parent_mr": ["मंगला", "अशोक"], "children_mr": [["अश्विनी", "शहाजी"], ["दिपाली", "रामकृष्ण"]]}], "vedu_side_status": "confirmed by user", "vedu_note_mr": "दागू / वेडू बाजूतील यमुना / राजाराम, जानकू / रघुनाथ आणि पार्वता / निंबा यांचे थेट वंशज वापरकर्त्याने दुरुस्त करून पुष्टी केले आहेत.", "vedu_confirmed_mapping": [{"parent_mr": ["यमुना", "राजाराम"], "children_mr": [["सुमन", "यादवराव"], ["मथुरा", "पोपट"]]}, {"parent_mr": ["जानकू", "रघुनाथ"], "children_mr": [["शांता", "शामराव"], ["मीना", "हरी हिरा"], ["अंजिरा", "रावसाहेब"], ["निर्मला", "मुरलीधर"]]}, {"parent_mr": ["पार्वता", "निंबा"], "children_mr": [["विश्वास"], ["टिकाराम"], ["मधुकर"], ["मीरा", "सुभाष"]]}]}, "review_items": [{"path": "दाजी पाटील → कडजी → महादू", "text_mr": "शेवंता / महादू", "reason": "first name is on a pasted/correction label"}], "revision_history": [{"change": "Corrected Dagu/Vedu direct children", "confirmed_by_user": true, "details_mr": ["गोतमा / रामचंद्र", "यमुना / राजाराम", "जानकी / रघुनाथ", "पार्वता / निंबा"], "removed_from_this_branch": ["सुमन / मधुकर"]}, {"change": "Corrected Jaanaku spelling and reconfirmed Dagu/Vedu direct descendants", "confirmed_by_user": true, "details_mr": ["गोतमा / रामचंद्र", "यमुना / राजाराम", "जानकू / रघुनाथ", "पार्वता / निंबा"]}, {"change": "Added confirmed descendants of Gotama/Ramchandra", "confirmed_by_user": true, "details_mr": ["द्रौपदा / दिगंबर", "कस्तुरा / मणिराम"]}, {"change": "Confirmed descendants of Yamuna/Rajaram, Jaanaku/Raghunath, and Parvata/Nimba", "confirmed_by_user": true, "details_mr": {"यमुना / राजाराम": ["सुमन / यादवराव", "मथुरा / पोपट"], "जानकू / रघुनाथ": ["शांता / शामराव", "मीना / हरी हिरा", "अंजिरा / रावसाहेब", "निर्मला / मुरलीधर"], "पार्वता / निंबा": ["विश्वास", "टिकाराम", "मधुकर", "मीरा / सुभाष"]}}, {"change": "Added confirmed next-generation descendants", "confirmed_by_user": true, "details_mr": {"द्रौपदा / दिगंबर": ["अरुणा / भिकन", "रंजना / नागेश"], "कस्तुरा / मणिराम": ["रत्ना / हिम्मत"], "सुमन / यादवराव": ["पुष्पा / प्रभाकर", "मनीषा / भास्कर"], "मथुरा / पोपट": ["जितेंद्र", "पुष्पेंद्र"], "शांता / शामराव": ["किरण", "कांतिलाल"]}}, {"change": "Added confirmed descendants under Meena/Hari Hira, Anjira/Raosaheb, and Nirmala/Murlidhar", "confirmed_by_user": true, "details_mr": {"मीना / हरी हिरा": ["राजेंद्र", "भालचंद्र", "शशिकांत"], "अंजिरा / रावसाहेब": ["योगेश", "राहुल"], "निर्मला / मुरलीधर": ["उदय", "विशाल"]}}, {"change": "Added confirmed descendants under Vishwas, Tikaram, Madhukar, and Meera/Subhash", "confirmed_by_user": true, "details_mr": {"विश्वास": ["सतीश", "उमेश"], "टिकाराम": ["शीतल / पारस"], "मधुकर": ["उमेश", "देवेंद्र"], "मीरा / सुभाष": ["चेतन", "स्वराज"]}}, {"change": "Added confirmed descendants under Aruna/Suresh, Sunanda/Ravindra, and Sanjay/Varsha", "confirmed_by_user": true, "details_mr": {"अरुणा / सुरेश": ["पूनम / सागर"], "सुनंदा / रविंद्र": ["मानसी / प्रशांत", "खुशी / चेतन"], "संजय / वर्षा": ["श्वेता / गौरव", "उत्कर्ष"]}}, {"change": "Added confirmed descendants under Vijay/Jayashri, Shila/Anil, and Jyoti/Dinesh", "confirmed_by_user": true, "details_mr": {"विजय / जयश्री": ["मितेश"], "शिला / अनिल": ["रितेश"], "ज्योती / दिनेश": ["दर्शन"]}}, {"change": "Added confirmed descendants and corrected Kiran/Kantilal as a couple", "confirmed_by_user": true, "details_mr": {"विनय / ज्योती": ["आदेश"], "रंजना / नागेश": ["रोहित"], "मनीषा / भास्कर": ["शुभम"], "किरण / कांतिलाल": ["युगंधरा", "दिप्तांशु"], "उदय": ["धैर्य"], "भालचंद्र": ["सरवेश"]}}, {"change": "Set confirmed sibling age order and render older siblings to the left", "confirmed_by_user": true, "age_order_mr": {"कडजीची मुले": ["महादू", "भगवान"], "महादूची मुले": ["उखाजी", "पंडित"], "उखाजीची मुले": ["सुरेश", "रविंद्र", "संजय"], "पंडितची मुले": ["विजय", "अनिल", "दिनेश"], "सुनंदा / रविंद्रची मुले": ["मानसी / प्रशांत", "खुशी / चेतन"], "संजय / वर्षाची मुले": ["श्वेता / गौरव", "उत्कर्ष"]}, "display_rule_mr": "पुष्टी केलेल्या भावंड-समूहात ज्येष्ठ डावीकडे आणि धाकटे उजवीकडे."}, {"change": "Added Laxman Sonba Patil as parent/root and Daji Patil as direct child", "confirmed_by_user": true, "details_mr": {"पालक": "लक्ष्मण सोनबा पाटील", "अपत्य": "दाजी पाटील"}}, {"change": "Reordered spouse names for three confirmed couples", "confirmed_by_user": true, "details_mr": ["ज्योती / विनय", "मंजुषा / प्रशांत", "अश्विनी / शहाजी"]}, {"change": "Reordered spouse names for Sanjay/Varsha", "confirmed_by_user": true, "details_mr": ["वर्षा / संजय"]}, {"change": "Rebalanced radial layout to make Kadji family names easier to read", "confirmed_by_user": true, "details_mr": {"कडजी शाखा": "डावीकडे सुमारे 45% वर्तुळ", "वेडू शाखा": "उजवीकडे सुमारे 55% वर्तुळ", "नावे": "कडजी शाखेसाठी कमी hide-threshold आणि किंचित मोठा font"}}, {"change": "Moved Kadji Patil sector 45 degrees toward bottom-left", "confirmed_by_user": true, "details_mr": {"कडजी पाटील शाखा": "डावीकडून खाली-डावीकडे 45°", "दिशा": "clockwise", "कुटुंब रचना": "अपरिवर्तित", "ज्येष्ठ-धाकटे क्रम": "अपरिवर्तित"}}, {"change": "Added confirmed descendants under Pushpa/Prabhakar, Dhanashri/Dinesh, Jitendra, Bhalchandra, and Chetan in Meera/Subhash branch", "confirmed_by_user": true, "details_mr": {"पुष्पा / प्रभाकर": ["धनश्री / दिनेश", "गिरीश"], "धनश्री / दिनेश": ["हिमांशु"], "जितेंद्र": ["वेद"], "भालचंद्र": ["भारद्वाज"], "मीरा / सुभाष → चेतन": ["दुर्गेश"]}}, {"change": "Specified Himanshu as son of Dhanashri/Dinesh", "confirmed_by_user": true, "details_mr": "हिमांशु हा धनश्री / दिनेश यांचा मुलगा आहे."}, {"change": "Restored Sarvesh as a son of Bhalchandra alongside Bhardwaj", "confirmed_by_user": true, "details_mr": {"भालचंद्र": ["सरवेश (मुलगा)", "भारद्वाज (मुलगा)"]}}, {"change": "Added animated entrance, ancestry glow, and branch spotlight", "confirmed_by_user": true, "family_data_changed": false}, {"change": "Corrected Shila/Anil to Shaila/Anil", "confirmed_by_user": true, "details_mr": "शैला / अनिल"}, {"change": "Fixed ancestry-path click and branch-spotlight interactions", "confirmed_by_user": true, "family_data_changed": false}, {"change": "Reduced HTML to diagram-only presentation", "confirmed_by_user": true, "family_data_changed": false}], "display_preferences": {"sibling_age_direction": "older_to_left", "sibling_age_direction_mr": "ज्येष्ठ भावंड डावीकडे", "apply_to": "age_order_confirmed sibling groups", "kadji_branch_priority": {"enabled": true, "sector_share": 0.45, "position": "bottom-left", "label_priority": "high", "note_mr": "कडजी पाटील शाखा अधिक खाली-डावीकडे दिसण्यासाठी संपूर्ण रेडियल मांडणी 45 अंश clockwise फिरवली आहे.", "rotation_degrees": 45, "rotation_direction": "clockwise"}, "interactive_effects": {"animated_entrance": "generation-by-generation, ~2.6 seconds", "ancestry_glow": "golden path to root on person click", "branch_spotlight": "smooth zoom + rotation for Kadji and Dagu/Vedu", "family_data_changed": false, "interaction_fix": "Separate arc clicks from canvas drag; use requestAnimationFrame transform animation."}, "diagram_only": true}}</script>
+<script id="tree-data" type="application/json">{"generation": 1, "order": 1, "name_mr": "लक्ष्मण सोनबा पाटील", "confidence": "high", "relationship_status": "confirmed_by_user", "note": "दाजी पाटील यांचे पालक म्हणून वापरकर्त्याने पुष्टी केली.", "children": [{"generation": 2, "order": 1, "name_mr": "दाजी पाटील", "confidence": "high", "children": [{"generation": 3, "order": 1, "wife_mr": "दागू", "husband_mr": "वेडू", "confidence": "high", "note": "दागू / वेडू आणि त्यांचे चार थेट वंशज वापरकर्त्याने पुष्टी केले.", "children": [{"generation": 4, "order": 1, "lines_mr": ["गोतमा", "रामचंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 5, "order": 1, "lines_mr": ["द्रौपदा", "दिगंबर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["अरुणा", "भिकन"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "द्रौपदा / दिगंबर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["रंजना", "नागेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["रोहित"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "रंजना / नागेश यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "द्रौपदा / दिगंबर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "गोतमा / रामचंद्र यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 2, "lines_mr": ["कस्तुरा", "मणिराम"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["रत्ना", "हिम्मत"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "कस्तुरा / मणिराम यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "गोतमा / रामचंद्र यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "दागू / वेडू यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 4, "order": 2, "lines_mr": ["यमुना", "राजाराम"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 5, "order": 1, "lines_mr": ["सुमन", "यादवराव"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["पुष्पा", "प्रभाकर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["धनश्री", "दिनेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 8, "order": 1, "lines_mr": ["हिमांशु"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "हिमांशु हा धनश्री / दिनेश यांचा मुलगा आहे.", "relationship_type": "son", "relationship_type_mr": "मुलगा"}], "note": "पुष्पा / प्रभाकर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 7, "order": 2, "lines_mr": ["गिरीश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "पुष्पा / प्रभाकर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "सुमन / यादवराव यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["मनीषा", "भास्कर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["शुभम"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मनीषा / भास्कर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "सुमन / यादवराव यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "यमुना / राजाराम यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 2, "lines_mr": ["मथुरा", "पोपट"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["जितेंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["वेद"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "जितेंद्र यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "मथुरा / पोपट यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["पुष्पेंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मथुरा / पोपट यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "यमुना / राजाराम यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "दागू / वेडू यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 4, "order": 3, "lines_mr": ["जानकू", "रघुनाथ"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 5, "order": 1, "lines_mr": ["शांता", "शामराव"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["किरण", "कांतिलाल"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["युगंधरा"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "किरण / कांतिलाल यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 7, "order": 2, "lines_mr": ["दिप्तांशु"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "किरण / कांतिलाल यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "किरण / कांतिलाल हे जोडपे म्हणून वापरकर्त्याच्या नवीन दुरुस्तीनुसार नोंदवले."}], "note": "जानकू / रघुनाथ यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 2, "lines_mr": ["मीना", "हरी हिरा"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["राजेंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मीना / हरी हिरा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["भालचंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["सरवेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "relationship_type": "son", "relationship_type_mr": "मुलगा", "children": [], "note": "सरवेश हा भालचंद्र यांचा मुलगा आहे."}, {"generation": 7, "order": 2, "lines_mr": ["भारद्वाज"], "confidence": "high", "relationship_status": "confirmed_by_user", "relationship_type": "son", "relationship_type_mr": "मुलगा", "children": [], "note": "भारद्वाज हा भालचंद्र यांचा मुलगा आहे."}], "note": "मीना / हरी हिरा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 3, "lines_mr": ["शशिकांत"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मीना / हरी हिरा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "जानकू / रघुनाथ यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 3, "lines_mr": ["अंजिरा", "रावसाहेब"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["योगेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "अंजिरा / रावसाहेब यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["राहुल"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "अंजिरा / रावसाहेब यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "जानकू / रघुनाथ यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 4, "lines_mr": ["निर्मला", "मुरलीधर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["उदय"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["धैर्य"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "उदय यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "निर्मला / मुरलीधर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["विशाल"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "निर्मला / मुरलीधर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "जानकू / रघुनाथ यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "दागू / वेडू यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 4, "order": 4, "lines_mr": ["पार्वता", "निंबा"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 5, "order": 1, "lines_mr": ["विश्वास"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["सतीश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "विश्वास यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["उमेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "विश्वास यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "पार्वता / निंबा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 2, "lines_mr": ["टिकाराम"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["शीतल", "पारस"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "टिकाराम यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "पार्वता / निंबा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 3, "lines_mr": ["मधुकर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["उमेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मधुकर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["देवेंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मधुकर यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "पार्वता / निंबा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 5, "order": 4, "lines_mr": ["मीरा", "सुभाष"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 6, "order": 1, "lines_mr": ["चेतन"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [{"generation": 7, "order": 1, "lines_mr": ["दुर्गेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "चेतन यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "मीरा / सुभाष यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 6, "order": 2, "lines_mr": ["स्वराज"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "मीरा / सुभाष यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "पार्वता / निंबा यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "note": "दागू / वेडू यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "relationship_status": "confirmed_by_user"}, {"generation": 3, "order": 2, "wife_mr": null, "husband_mr": "कडजी", "confidence": "high", "children": [{"generation": 4, "order": 1, "lines_mr": ["शेवंता", "महादू"], "confidence": "medium", "note": "First name is printed on a correction label; शेवंता is the best visual reading.", "children": [{"generation": 5, "order": 1, "lines_mr": ["इंदू", "उखाजी"], "confidence": "high", "children": [{"generation": 6, "order": 1, "lines_mr": ["अरुणा", "सुरेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["पूनम", "सागर"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "अरुणा / सुरेश यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}]}, {"generation": 6, "order": 2, "lines_mr": ["सुनंदा", "रविंद्र"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["मानसी", "प्रशांत"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "सुनंदा / रविंद्र यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 7, "order": 2, "lines_mr": ["खुशी", "चेतन"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "सुनंदा / रविंद्र यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}, {"generation": 6, "order": 3, "lines_mr": ["वर्षा", "संजय"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["श्वेता", "गौरव"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "वर्षा / संजय यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}, {"generation": 7, "order": 2, "lines_mr": ["उत्कर्ष"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "वर्षा / संजय यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}, {"generation": 5, "order": 2, "lines_mr": ["वत्सला", "पंडित"], "confidence": "high", "children": [{"generation": 6, "order": 1, "lines_mr": ["विजय", "जयश्री"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["मितेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "विजय / जयश्री यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}]}, {"generation": 6, "order": 2, "lines_mr": ["शैला", "अनिल"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["रितेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "शैला / अनिल यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}]}, {"generation": 6, "order": 3, "lines_mr": ["ज्योती", "दिनेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["दर्शन"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "ज्योती / दिनेश यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}]}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}, {"generation": 4, "order": 2, "lines_mr": ["गुंता", "भगवान"], "confidence": "high", "children": [{"generation": 5, "order": 1, "lines_mr": ["सुशिला", "बाबुराव"], "confidence": "high", "children": [{"generation": 6, "order": 1, "lines_mr": ["ज्योती", "विनय"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user.", "children": [{"generation": 7, "order": 1, "lines_mr": ["आदेश"], "confidence": "high", "relationship_status": "confirmed_by_user", "children": [], "note": "ज्योती / विनय यांचे थेट वंशज म्हणून वापरकर्त्याने पुष्टी केली."}]}, {"generation": 6, "order": 2, "lines_mr": ["मंजुषा", "प्रशांत"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user."}]}, {"generation": 5, "order": 2, "lines_mr": ["मंगला", "अशोक"], "confidence": "high", "children": [{"generation": 6, "order": 1, "lines_mr": ["अश्विनी", "शहाजी"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user."}, {"generation": 6, "order": 2, "lines_mr": ["दिपाली", "रामकृष्ण"], "confidence": "high", "relationship_status": "confirmed_by_user", "note": "Outer-ring parent link corrected and confirmed by the user."}]}]}], "age_order_confirmed": true, "display_note_mr": "ज्येष्ठ भावंड डावीकडे दाखवण्यासाठी वयक्रम पुष्टी केला आहे."}], "relationship_status": "confirmed_by_user", "note": "लक्ष्मण सोनबा पाटील यांचे थेट अपत्य म्हणून वापरकर्त्याने पुष्टी केली."}]}</script>
 <script>
 (() => {
-  const data=JSON.parse(document.getElementById("data").textContent);
-  const branch=data.root_context.branch;
-  const svg=document.getElementById("svg"),viewport=document.getElementById("viewport");
-  const arcsG=document.getElementById("arcs"),labelsG=document.getElementById("labels");
-  const guidesG=document.getElementById("guides"),centerG=document.getElementById("center");
-  const tooltip=document.getElementById("tooltip");
-
+  const branch=JSON.parse(document.getElementById("tree-data").textContent);
+  const arcsG=document.getElementById("arcs");
+  const labelsG=document.getElementById("labels");
+  const guidesG=document.getElementById("guides");
+  const centerG=document.getElementById("center");
   const palette=["#c69a7a","#8ea674","#c6a65c","#89a9c1","#b48d9c","#c79b64"];
   const ROOT_R=108,OUTER_R=845;
-  let zoom=1,panX=0,panY=0,rotation=0,dragging=false,dragStart=null,seq=0;
 
   function enrich(node,parent=null,depth=0,branchIndex=0){
-    node._id="n"+(++seq);node._parent=parent;node._depth=depth;
+    node._parent=parent;
+    node._depth=depth;
     node._branchIndex=depth===2?Math.max(0,(node.order||1)-1):branchIndex;
     (node.children||[]).forEach(c=>enrich(c,node,depth+1,node._branchIndex));
   }
   enrich(branch);
 
-  function label(n){
-    if(n.name_mr)return n.name_mr;
-    if(n.generation===3)return[n.wife_mr,n.husband_mr].filter(Boolean).join(" / ");
-    return(n.lines_mr||["—"]).join(" / ");
-  }
   function lines(n){
     if(n.name_mr)return[n.name_mr];
     if(n.generation===3)return[n.wife_mr,n.husband_mr].filter(Boolean);
     return n.lines_mr||["—"];
   }
 
-  // Use terminal-leaf weight, but give every terminal node at least one unit.
   function weight(n){
     const kids=n.children||[];
     if(!kids.length)return n._weight=1;
-    return n._weight=kids.reduce((s,c)=>s+weight(c),0);
+    return n._weight=kids.reduce((sum,c)=>sum+weight(c),0);
   }
   weight(branch);
-  // For sibling groups whose age order was confirmed, make order 1 physically
-  // appear to the LEFT of later siblings. In a radial chart the clockwise
-  // direction alone does not consistently correspond to screen-left.
+
   function ageSortedKids(n){
     return [...(n.children||[])].sort((a,b)=>(a.order||999)-(b.order||999));
   }
-  function angularCenters(kids,a0,a1){
-    const total=kids.reduce((s,c)=>s+c._weight,0);
+
+  function centers(kids,a0,a1){
+    const total=kids.reduce((sum,c)=>sum+c._weight,0);
     let cur=a0;
     return kids.map((c,i)=>{
       const end=i===kids.length-1?a1:cur+(a1-a0)*(c._weight/total);
       const center=(cur+end)/2;
       cur=end;
-      return {child:c,center};
+      return center;
     });
   }
+
   function visualKids(n,a0,a1){
     const kids=ageSortedKids(n);
-    if(kids.length<2 || !n.age_order_confirmed)return kids;
-    const normal=angularCenters(kids,a0,a1);
-    // SVG uses x = r*cos(angle). Smaller x is visually farther left.
-    const olderX=Math.cos(normal[0].center);
-    const youngerX=Math.cos(normal[normal.length-1].center);
-    return olderX<=youngerX ? kids : [...kids].reverse();
+    if(kids.length<2||!n.age_order_confirmed)return kids;
+    const c=centers(kids,a0,a1);
+    return Math.cos(c[0])<=Math.cos(c[c.length-1])?kids:[...kids].reverse();
   }
+
   function layout(n,a0,a1){
     n._a0=a0;n._a1=a1;
-    const kids=visualKids(n,a0,a1);if(!kids.length)return;
+    const kids=visualKids(n,a0,a1);
+    if(!kids.length)return;
 
-    // Give the two main Daji branches deliberate space instead of pure leaf-count
-    // weighting. Vedu stays on the right (~55%) and Kadji gets a broad left sector
-    // (~45%) so the Kadji-family names remain legible.
-    if(n.name_mr==="दाजी पाटील" && kids.length===2){
-      const vedu=kids.find(c=>c.husband_mr==="वेडू") || kids[0];
-      const kadji=kids.find(c=>c.husband_mr==="कडजी") || kids[1];
+    if(n.name_mr==="दाजी पाटील"&&kids.length===2){
+      const vedu=kids.find(c=>c.husband_mr==="वेडू")||kids[0];
+      const kadji=kids.find(c=>c.husband_mr==="कडजी")||kids[1];
       const split=a0+(a1-a0)*0.55;
       layout(vedu,a0,split);
       layout(kadji,split,a1);
       return;
     }
 
-    const total=kids.reduce((s,c)=>s+c._weight,0);let cur=a0;
+    const total=kids.reduce((sum,c)=>sum+c._weight,0);
+    let cur=a0;
     kids.forEach((c,i)=>{
       const end=i===kids.length-1?a1:cur+(a1-a0)*(c._weight/total);
-      layout(c,cur,end);cur=end;
+      layout(c,cur,end);
+      cur=end;
     });
   }
-  // Rotated slightly so the Kadji sector is centered visually on the left.
-  layout(branch,-Math.PI*0.30,Math.PI*1.70);
+  layout(branch,-Math.PI*.30,Math.PI*1.70);
 
-  const nodes=[];(function collect(n){nodes.push(n);(n.children||[]).forEach(collect)})(branch);
+  const nodes=[];
+  (function collect(n){nodes.push(n);(n.children||[]).forEach(collect)})(branch);
   const maxDepth=Math.max(...nodes.map(n=>n._depth));
   const ringW=(OUTER_R-ROOT_R)/Math.max(1,maxDepth);
 
   function polar(r,a){return[r*Math.cos(a),r*Math.sin(a)]}
+
   function arcPath(r0,r1,a0,a1){
     const e=.0015;a0+=e;a1-=e;
     const p0=polar(r1,a0),p1=polar(r1,a1),p2=polar(r0,a1),p3=polar(r0,a0);
     const large=(a1-a0)>Math.PI?1:0;
     return`M ${p0[0]} ${p0[1]} A ${r1} ${r1} 0 ${large} 1 ${p1[0]} ${p1[1]} L ${p2[0]} ${p2[1]} A ${r0} ${r0} 0 ${large} 0 ${p3[0]} ${p3[1]} Z`;
   }
+
   function mix(hex,amt){
-    const h=hex.slice(1),rgb=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16));
+    const h=hex.slice(1);
+    const rgb=[0,2,4].map(i=>parseInt(h.slice(i,i+2),16));
     const m=v=>Math.round(v+(255-v)*amt);
     return`rgb(${m(rgb[0])},${m(rgb[1])},${m(rgb[2])})`;
   }
+
   function fill(n){
     const base=palette[n._branchIndex%palette.length];
     return mix(base,Math.min(.63,Math.max(0,(n._depth-1)*.13)));
   }
-  function esc(s){
-    return String(s??"").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;");
-  }
 
   for(let d=1;d<=maxDepth;d++){
     const c=document.createElementNS("http://www.w3.org/2000/svg","circle");
-    c.setAttribute("r",ROOT_R+d*ringW);c.setAttribute("class","guide");guidesG.appendChild(c);
+    c.setAttribute("r",ROOT_R+d*ringW);
+    c.setAttribute("class","guide");
+    guidesG.appendChild(c);
   }
 
-  const rc=document.createElementNS("http://www.w3.org/2000/svg","circle");
-  rc.setAttribute("r",ROOT_R-5);rc.setAttribute("class","root");centerG.appendChild(rc);
-  const rt=document.createElementNS("http://www.w3.org/2000/svg","text");
-  rt.setAttribute("class","root-label");rt.setAttribute("font-size","21");
-  const rootWords=(branch.name_mr||"").split(/\s+/).filter(Boolean);
-  rootWords.forEach((x,i)=>{
-    const sp=document.createElementNS("http://www.w3.org/2000/svg","tspan");
-    sp.setAttribute("x","0");
-    sp.setAttribute("dy",i===0?`${-0.52*(rootWords.length-1)}em`:"1.05em");
-    sp.textContent=x;rt.appendChild(sp);
+  const rootCircle=document.createElementNS("http://www.w3.org/2000/svg","circle");
+  rootCircle.setAttribute("r",ROOT_R-5);
+  rootCircle.setAttribute("class","root");
+  centerG.appendChild(rootCircle);
+
+  const rootText=document.createElementNS("http://www.w3.org/2000/svg","text");
+  rootText.setAttribute("class","root-label");
+  rootText.setAttribute("font-size","21");
+  const words=(branch.name_mr||"").split(/\s+/).filter(Boolean);
+  words.forEach((word,i)=>{
+    const t=document.createElementNS("http://www.w3.org/2000/svg","tspan");
+    t.setAttribute("x","0");
+    t.setAttribute("dy",i===0?`${-0.52*(words.length-1)}em`:"1.05em");
+    t.textContent=word;
+    rootText.appendChild(t);
   });
-  centerG.appendChild(rt);
+  centerG.appendChild(rootText);
 
   function addLabel(n,r0,r1){
-    const mid=(n._a0+n._a1)/2,span=n._a1-n._a0,r=(r0+r1)/2;
-    const isKadjiBranch=n._branchIndex===1;
-    // Kadji-family labels get priority: allow them to render in narrower wedges.
-    const hideThreshold=isKadjiBranch?30:48;
-    if(span*r<hideThreshold)return;
-    const [x,y]=polar(r,mid);let rot=mid*180/Math.PI+90;if(rot>90&&rot<270)rot+=180;
-    const t=document.createElementNS("http://www.w3.org/2000/svg","text");
-    t.setAttribute("class","label"+(n.relationship_status==="tentative"?" tentative":""));
-    t.setAttribute("x",x);t.setAttribute("y",y);t.setAttribute("text-anchor","middle");
-    t.setAttribute("dominant-baseline","central");t.setAttribute("transform",`rotate(${rot} ${x} ${y})`);
+    const mid=(n._a0+n._a1)/2;
+    const span=n._a1-n._a0;
+    const r=(r0+r1)/2;
+    const kadji=n._branchIndex===1;
+    if(span*r<(kadji?30:48))return;
+
+    const [x,y]=polar(r,mid);
+    let rot=mid*180/Math.PI+90;
+    if(rot>90&&rot<270)rot+=180;
+
+    const text=document.createElementNS("http://www.w3.org/2000/svg","text");
+    text.setAttribute("class","label"+(n.relationship_status==="tentative"?" tentative":""));
+    text.setAttribute("x",x);
+    text.setAttribute("y",y);
+    text.setAttribute("text-anchor","middle");
+    text.setAttribute("dominant-baseline","central");
+    text.setAttribute("transform",`rotate(${rot} ${x} ${y})`);
+
     let fs=n._depth===1?23:n._depth===2?18:n._depth===3?15:n._depth===4?13:11;
-    if(isKadjiBranch && n._depth>=3)fs+=1.5;
-    if(span*r<(isKadjiBranch?66:80))fs-=1;
-    t.setAttribute("font-size",Math.max(isKadjiBranch?9.5:9,fs));
+    if(kadji&&n._depth>=3)fs+=1.5;
+    if(span*r<(kadji?66:80))fs-=1;
+
     const ls=lines(n);
-    // Couple cells should always display both names. For narrow wedges, reduce the font
-    // rather than hiding the second person.
-    const isCouple = ls.length > 1;
-    const max = isCouple ? Math.min(2, ls.length) : 1;
-    if (isCouple && span*r < (isKadjiBranch?88:105)) {
-      fs = Math.max(isKadjiBranch?9:8, fs - (isKadjiBranch?1:2));
-      t.setAttribute("font-size", fs);
-    }
-    ls.slice(0,max).forEach((s,i)=>{
-      const sp=document.createElementNS("http://www.w3.org/2000/svg","tspan");
-      sp.setAttribute("x",x);sp.setAttribute("dy",i===0&&max>1?"-.48em":i===0?"0":"1.08em");
-      sp.textContent=s;t.appendChild(sp);
+    const couple=ls.length>1;
+    const max=couple?Math.min(2,ls.length):1;
+    if(couple&&span*r<(kadji?88:105))fs=Math.max(kadji?9:8,fs-(kadji?1:2));
+    text.setAttribute("font-size",Math.max(kadji?9.5:9,fs));
+
+    ls.slice(0,max).forEach((name,i)=>{
+      const t=document.createElementNS("http://www.w3.org/2000/svg","tspan");
+      t.setAttribute("x",x);
+      t.setAttribute("dy",i===0&&max>1?"-.48em":i===0?"0":"1.08em");
+      t.textContent=name;
+      text.appendChild(t);
     });
-    t.dataset.id=n._id;
-    t.dataset.depth=n._depth;
-    t.style.setProperty("--reveal-delay",`${Math.min(2200,n._depth*260)}ms`);
-    t.classList.add("entering");
-    labelsG.appendChild(t);
+    labelsG.appendChild(text);
   }
 
-
-  function render(n){
+  nodes.forEach(n=>{
     if(n._depth===0)return;
-    const r0=ROOT_R+(n._depth-1)*ringW,r1=ROOT_R+n._depth*ringW;
-    const p=document.createElementNS("http://www.w3.org/2000/svg","path");
-    p.setAttribute("d",arcPath(r0,r1,n._a0,n._a1));p.setAttribute("fill",fill(n));
-    p.setAttribute("stroke","#79634f");p.setAttribute("stroke-width",n._depth===1?"2.3":"1.15");
+    const r0=ROOT_R+(n._depth-1)*ringW;
+    const r1=ROOT_R+n._depth*ringW;
+    const path=document.createElementNS("http://www.w3.org/2000/svg","path");
+    path.setAttribute("d",arcPath(r0,r1,n._a0,n._a1));
+    path.setAttribute("fill",fill(n));
+    path.setAttribute("stroke","#79634f");
+    path.setAttribute("stroke-width",n._depth===1?"2.3":"1.15");
+
     let cls="arc";
     if(n.confidence==="medium")cls+=" medium";
     if(n.relationship_status==="tentative")cls+=" tentative";
-    p.setAttribute("class",cls);p.dataset.id=n._id;p.dataset.depth=n._depth;
-    p.style.setProperty("--reveal-delay",`${Math.min(2200,n._depth*260)}ms`);
-    p.classList.add("entering");
-    arcsG.appendChild(p);
-    p.addEventListener("mouseenter",e=>showTip(e,n));
-    p.addEventListener("mousemove",moveTip);p.addEventListener("mouseleave",()=>tooltip.style.display="none");
-    p.addEventListener("click",e=>{
-      e.stopPropagation();
-      if(n.generation===3 && (n.husband_mr==="कडजी" || n.husband_mr==="वेडू")) spotlightBranch(n);
-      else select(n);
-    });
+    path.setAttribute("class",cls);
+
+    arcsG.appendChild(path);
     addLabel(n,r0,r1);
-  }
-  nodes.forEach(render);
-
-  function showTip(e,n){
-    const tentative=n.relationship_status==="tentative"?" · tentative parent link":"";
-    tooltip.innerHTML=`<div class="tt-title">${lines(n).map(esc).join("<br>")}</div><div class="tt-sub">पिढी ${n.generation}${tentative}</div>`;
-    tooltip.style.display="block";moveTip(e);
-  }
-  function moveTip(e){
-    tooltip.style.left=Math.min(innerWidth-340,e.clientX+14)+"px";
-    tooltip.style.top=Math.min(innerHeight-125,e.clientY+14)+"px";
-  }
-
-  function clearVisualClasses(){
-    document.querySelectorAll(".arc,.label").forEach(el=>{
-      el.classList.remove("dim","active","ancestor","spotlight");
-    });
-    centerG.classList.remove("path-glow");
-  }
-
-  function select(n){
-    finishEntrance();
-    clearVisualClasses();
-    const ancestors=new Set();
-    let x=n;
-    while(x){ancestors.add(x._id);x=x._parent}
-
-    document.querySelectorAll(".arc,.label").forEach(el=>{
-      const isPath=ancestors.has(el.dataset.id);
-      el.classList.toggle("dim",!isPath);
-      el.classList.toggle("ancestor",isPath);
-      el.classList.toggle("active",el.dataset.id===n._id);
-    });
-    centerG.classList.add("path-glow");
-
-  }
-
-  function descendantsSet(n){
-    const ids=new Set();
-    (function down(x){ids.add(x._id);(x.children||[]).forEach(down)})(n);
-    return ids;
-  }
-
-  function finishEntrance(){
-    document.querySelectorAll(".arc.entering,.label.entering").forEach(el=>el.classList.remove("entering"));
-    centerG.classList.remove("entrance");
-  }
-
-  function spotlightBranch(n){
-    finishEntrance();
-    clearVisualClasses();
-
-    const ids=descendantsSet(n);
-    document.querySelectorAll(".arc,.label").forEach(el=>{
-      const inside=ids.has(el.dataset.id);
-      el.classList.toggle("dim",!inside);
-      el.classList.toggle("spotlight",inside);
-      el.classList.toggle("active",el.dataset.id===n._id);
-    });
-
-    // Rotate the branch midpoint to the top, then translate the middle of that
-    // branch's radial mass to the viewport center.
-    const mid=(n._a0+n._a1)/2;
-    const targetAngle=-Math.PI/2;
-    const targetRotation=(targetAngle-mid)*180/Math.PI;
-    const targetZoom=n.husband_mr==="कडजी"?1.46:1.34;
-
-    const focusR=ROOT_R+(OUTER_R-ROOT_R)*.47;
-    const px=focusR*Math.cos(mid), py=focusR*Math.sin(mid);
-    const rr=targetRotation*Math.PI/180;
-    const rx=px*Math.cos(rr)-py*Math.sin(rr);
-    const ry=px*Math.sin(rr)+py*Math.cos(rr);
-    const targetPanX=-targetZoom*rx;
-    const targetPanY=-targetZoom*ry;
-
-    animateView(targetZoom,targetPanX,targetPanY,targetRotation);
-
-  }
-
-  function clear(){
-    clearVisualClasses();
-  }
-
-
-
-
-
-
-  let viewAnimFrame=0;
-
-  function matrixFor(z,x,y,rDeg){
-    const r=rDeg*Math.PI/180;
-    const c=Math.cos(r),s=Math.sin(r);
-    return `matrix(${z*c} ${z*s} ${-z*s} ${z*c} ${x} ${y})`;
-  }
-
-  function apply(){
-    viewport.setAttribute("transform",matrixFor(zoom,panX,panY,rotation));
-  }
-
-  function stopViewAnimation(){
-    if(viewAnimFrame){ cancelAnimationFrame(viewAnimFrame); viewAnimFrame=0; }
-  }
-
-  function animateView(z,x,y,r){
-    stopViewAnimation();
-    const from={z:zoom,x:panX,y:panY,r:rotation};
-    const to={
-      z:Math.max(.55,Math.min(3.5,z)),
-      x,y,r
-    };
-    const started=performance.now(),duration=760;
-    const ease=t=>1-Math.pow(1-t,3);
-
-    function frame(now){
-      const raw=Math.min(1,(now-started)/duration),k=ease(raw);
-      zoom=from.z+(to.z-from.z)*k;
-      panX=from.x+(to.x-from.x)*k;
-      panY=from.y+(to.y-from.y)*k;
-      rotation=from.r+(to.r-from.r)*k;
-      apply();
-      if(raw<1) viewAnimFrame=requestAnimationFrame(frame);
-      else viewAnimFrame=0;
-    }
-    viewAnimFrame=requestAnimationFrame(frame);
-  }
-
-  function setZoom(z){
-    stopViewAnimation();
-    zoom=Math.max(.55,Math.min(3.5,z));apply();
-  }
-  svg.addEventListener("wheel",e=>{e.preventDefault();setZoom(zoom*(e.deltaY<0?1.1:.9))},{passive:false});
-  svg.addEventListener("pointerdown",e=>{
-    // Clicking a family wedge is an action, not the start of a drag.
-    if(e.button!==0 || e.target.closest?.(".arc")) return;
-    stopViewAnimation();
-    dragging=true;
-    svg.classList.add("dragging");
-    dragStart={x:e.clientX,y:e.clientY,panX,panY};
-    svg.setPointerCapture(e.pointerId);
   });
-  svg.addEventListener("pointermove",e=>{
-    if(!dragging)return;const scale=1960/svg.getBoundingClientRect().width;
-    panX=dragStart.panX+(e.clientX-dragStart.x)*scale/zoom;
-    panY=dragStart.panY+(e.clientY-dragStart.y)*scale/zoom;apply();
-  });
-  svg.addEventListener("pointerup",e=>{dragging=false;svg.classList.remove("dragging");try{svg.releasePointerCapture(e.pointerId)}catch(_){}});
-  svg.addEventListener("click",e=>{
-    if(e.target.closest?.(".arc")) return;
-    clear();
-  });
-  svg.addEventListener("dblclick",e=>{
-    if(e.target.closest?.(".arc")) return;
-    finishEntrance();
-    clear();
-    animateView(1,0,0,0);
-  });
-
-  centerG.classList.add("entrance");
-  window.setTimeout(finishEntrance,2900);
-
 })();
 </script>
 </body>
